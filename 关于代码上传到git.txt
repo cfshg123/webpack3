@@ -1,0 +1,7 @@
+	关于代码上传到自己的GitHub上的问题
+   情况1.
+          电脑以及电脑上的git以前别人使用过，（ 通过 git config --list  查看配置是否是自己的邮箱 ），如果此时的电脑上的 git bash 邮箱不是自己的， 就要把邮件改变成自己的   git config --global user.name "Your Name" 和 git config --global user.email "email@example.com"  改成自己的账号和邮箱，  如果改变了之后 提交代码还是无法完成，通过 ssh-keygen -t rsa -C "youremail@example.com"  来换成自己的邮箱，  一直回车后 出现  Enter file in which to save the key (/c/users/xxx/.sh/id_rsa):
+/c/users/xxx/.ssh/id_rsa already exists.. ，   这时候就需要改变配置问题 （原因就是因为电脑中的.ssh文件夹中是别人的，此时需要该变配置对应自己的git 公钥 ）， 在c盘中找到 .ssh 这个文件夹 删除掉里面的文件==》 在git 中执行 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"（生成自己的 .ssh 文件 ） ==》找到GitHub中的设置 ==》 SSH and GPG keys  == > New SSH key (生成新的公钥) == 》生成公钥的过程中 的 key  是刚刚在 git 中执行命令sh-keygen -t rsa -b 4096 -C "your_email@example.com"（生成自己的 .ssh 文件 ）中生成的 id_rsa.pub中的乱码（文本打开） ，这样基本就完成了配置都是自己的东西。在生成一个新的项目（New repository），点进新生成的项目 可以看到生成的仓库地址 ，点进项目的文件夹  执行git remote add origin + 刚才的仓库地址就可以 。如果还是报错 fatal:remote origin already exists   , 在git  中执行 git remote rm origin    --> 再输入 git remote add origin + 仓库地址   ===  》 git push -u origin master  回车后 yes   这样就可以提交了。
+
+   情况2.
+          电脑是自己的 .ssh/git 邮件都是自己的，就可以同上  省去前面的改变配置，直接创建新的仓库 然后 git clone  + 仓库地址 再进行提交
